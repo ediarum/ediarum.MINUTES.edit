@@ -1,0 +1,206 @@
+/* 
+Copyright 2023 Berlin-Brandenburg Academy of Sciences and Humanities
+
+This file is part of ediarum.MINUTES.edit.
+
+ediarum.MINUTES.edit is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published 
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ediarum.MINUTES.edit is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with ediarum.MINUTES.edit. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@import url("standard.css");
+
+TEI {
+    padding: 1em;
+    font-family: Calibri;
+    border:solid black;
+}
+
+teiHeader {
+    display:none;
+    -oxy-foldable : false ;
+    -oxy-folded : false ;
+}
+
+text:before{
+    content: "\ALeseansicht: Zum Bearbeiten in die Standard- oder Bearbeitungsansicht wechseln!\A";
+    font-size: 200%;
+    color: red;
+    padding-left:5em;
+}
+
+
+
+
+list[rendition] > item:after{
+       content: " ";
+}
+
+list[rendition] > item[n]:after{
+       content: " ("attr(n)")";
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] item > ref[target]:after{
+    content: " \279C";
+    font-family: FontAwesome;
+    link: attr(target);
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] item > ref[target]:after{
+    content: " \279C";
+    font-family: FontAwesome;
+    link: attr(target);
+}  
+    
+front div[type='agenda'] list[type='agenda'][subtype='sub_item'] item > ref[target]:after{
+    content: " \279C";
+    font-family: FontAwesome;
+    link: attr(target);
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] item > ref[target='#']:after,
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] item > ref[target='#']:after,
+front div[type='agenda'] list[type='agenda'][subtype='sub_item'] item > ref[target='#']:after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left) " Ausgwählter TOP ist wegen fehlender ID nicht verknüpft worden!"!important;
+    border-style:dashed;
+    border-color:red;
+}
+
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] item ref:not([target]):after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left);
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] item ref:not([target]):after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left);
+}  
+    
+front div[type='agenda'] list[type='agenda'][subtype='sub_item'] item ref:not([target]):after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left);
+}
+
+head list[type='agenda_sub_item'] item:after{
+ content: " ";   
+}
+
+head list[type='agenda_sub_item'] item[n]:after{
+ content: " ("attr(n)")";   
+}
+
+div[type='circulation_procedure'] list item ref:after{
+    content:" "
+}
+
+text dateline time[when]{
+    content: "";
+}
+/* geschlossene Kommentarstruktur */
+text seg {
+    -oxy-display-tags: none;
+}
+
+text seg orig {
+    background-color: transparent!important;
+    -oxy-display-tags: none;
+}
+
+text seg note {
+    display:none;
+}
+
+
+/* offene Kommentarstruktur */
+
+anchor[type='comment']{
+    -oxy-display-tags: none;
+}
+
+anchor[type='comment']:before{
+    content: " " ;
+    background-color: transparent;
+}
+
+
+text note[type='comment'] {
+    display:none;
+}
+
+
+text note[type='comment']:before{
+    content: " ";
+}
+
+
+/* Indexes */
+
+front index:before,
+text index:before {
+    content: "";
+}
+
+/* indexName & n für die beiden Verlinkungen */
+
+text index:not([sameAs]):before,
+text index:not([corresp]):before{
+    content: "";
+}
+
+front anchor[type="index"]:after,
+text anchor[type="index"]:after {
+    content: "";
+}
+
+text persName[key='yes'],
+text orgName[key='yes'],
+text placeName[key='yes'],
+text bibl[sameAs='yes'],
+text rs[type='person'][key='yes'],
+text rs[type='org'][key='yes'],
+text rs[type='place'][key='yes'],
+text rs[type='bibl'][key='yes'],
+text rs[type='term'][key='yes'],
+text rs[type='abbr'][key='yes'],
+text rs[type='law'][key='yes']
+text persName[key='no'],
+text orgName[key='no'],
+text placeName[key='no'],
+text bibl[sameAs='no'],
+text rs[type='person'][key='no'],
+text rs[type='org'][key='no'],
+text rs[type='place'][key='no'],
+text rs[type='bibl'][key='no'],
+text rs[type='term'][key='no'],
+text rs[type='abbr'][key='no'],
+text rs[type='law'][key='no']{
+    color: black;
+    -oxy-display-tags: none;
+}
+
+
+g[ref="non-breaking-space"]:empty{
+    -oxy-display-tags: none;
+    background-color:transparent;
+    content:"\00A0"!important;
+}
+
+note[type='editorial_addition']{
+    background-color:transparent;
+}
+
+quote supplied,
+text supplied{
+    background-color:transparent;
+}

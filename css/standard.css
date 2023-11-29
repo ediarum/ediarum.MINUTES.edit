@@ -1,0 +1,2371 @@
+/* 
+Copyright 2023 Berlin-Brandenburg Academy of Sciences and Humanities
+
+This file is part of ediarum.MINUTES.edit.
+
+ediarum.MINUTES.edit is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published 
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ediarum.MINUTES.edit is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with ediarum.MINUTES.edit. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+@namespace xml "http://www.w3.org/XML/1998/namespace";
+@namespace telota "http://www.telota.de";
+@namespace oxy "http://www.oxygenxml.com/extensions/author";
+
+@font-face{
+    font-family: "BBAWfont";
+    src:url("../fonts/linlibertine_r.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: "BBAWfont-italic";
+    src:url("../fonts/linlibertine_ri.ttf");
+    font-weight: normal;
+}
+
+@font-face{
+    font-family: "Biolinum";
+    src: url("../fonts/linbiolinum_r.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: "Biolinum-italic";
+    src: url("../fonts/linbiolinum_ri.ttf");
+    font-weight: normal;
+}
+
+oxy|processing-instruction{
+    visibility:-oxy-collapse-text;
+    -oxy-display-tags: none;
+}
+
+/*oxy|comment{
+    visibility:-oxy-collapse-text;
+    -oxy-display-tags: none;
+}*/
+
+TEI {
+    padding: 1em;
+    font-family: Calibri;
+}
+
+/* Statusangaben TEI-Datei */
+
+
+TEI[ana]:before,
+TEI[ana]:after{
+    font-family: FontAwesome;
+    content: "\26ab"
+        oxy_popup(
+            edit, "@ana", 
+            values, "status:draft, status:progress, status:final, status:no_publication", 
+            labels, "Entwurf, in Bearbeitung, final, keine Veröffentlichung (Wartemodus)",
+            resultSeparator, " ", 
+            columns, 25, 
+            selectionMode, "single",
+            fontInherit, false,
+            color, black);
+}
+
+TEI[ana]:before,
+TEI[ana]:after{
+    font-family: FontAwesome;
+    font-size:150%;
+}
+
+TEI[ana='status:draft']:before,
+TEI[ana='status:draft']:after{
+    color:red;
+}
+
+TEI[ana='status:progress']:before,
+TEI[ana='status:progress']:after{
+    color:orange;
+}
+
+TEI[ana='status:final']:before,
+TEI[ana='status:final']:after{
+    color:green;
+}
+
+TEI[ana='status:no_publication']:before,
+TEI[ana='status:no_publication']:after{
+    color:black;
+}
+
+/* ################ teiHeader ############ */
+
+teiHeader {
+    padding: 1em;
+    border: 1px #000000 solid;
+    font-family: Calibri;
+    /*-oxy-foldable : true ;
+    -oxy-folded : true ;*/
+}
+
+teiHeader:before{
+    content: "Metadaten";
+    font-size:150%;
+}
+
+profileDesc,front{
+    background-color:#f9f9f9;
+}
+
+front{
+    padding: 0 0 1em 0;
+}
+
+titleStmt {
+    display: block;
+    margin: 0 0 1em 0;
+}
+
+titleStmt title {
+    -oxy-placeholder-content: "Titel";
+    -oxy-display-tags: none;
+    font-size: 1em;
+}
+
+title lb[type='editorial']{
+    content:"\A";
+    -oxy-display-tags:none;
+}
+
+front head label{
+    -oxy-placeholder-content:"lfd. Nr. d. Protokolls";
+    -oxy-show-placeholder: always;
+}
+
+front>head{
+    -oxy-placeholder-content: "Protokolltitel";
+    -oxy-show-placeholder: always;
+    -oxy-display-tags: none;
+    font-size: 1.5em;
+    content:"\A"
+}
+
+label:after{
+    content: " ";
+}
+
+titleStmt editor,
+titleStmt respStmt {
+    display: block;
+    font-size: 0.8em;
+}
+
+editor:after {
+    content: " (Herausgeber)";
+}
+
+respStmt persName+orgName:before,
+respStmt persName+orgName:after{
+    content:" | ";
+    
+}
+
+respStmt orgName{
+    color : rgb(70 , 94 , 122) ;
+}
+
+respStmt resp,
+respStmt resp note {
+    -oxy-display-tags: none;
+}
+
+respStmt resp:before {
+    content: " (";
+}
+
+respStmt resp:after {
+    content: ")";
+}
+
+titleStmt persName surname,
+titleStmt persName forename {
+    -oxy-display-tags: none;
+}
+
+titleStmt surname:after {
+    content:", ";
+}
+
+editionStmt {
+    display: none;
+}
+
+publicationStmt {
+    display: none;
+}
+
+sourceDesc,
+msIdentifier {
+    -oxy-display-tags: none;
+}
+
+sourceDesc:before {
+    display: block;
+}
+
+sourceDesc msDesc {
+    display: block;
+    content: "Signatur: "
+}
+
+sourceDesc msDesc * {
+    -oxy-display-tags: none;
+}
+
+sourceDesc msDesc collection{
+    -oxy-placeholder-content:"Nachlass";
+    -oxy-show-placeholder: always;
+}
+
+sourceDesc msDesc idno[type='shelfmark']{
+    -oxy-placeholder-content:"Signatur";
+}
+
+sourceDesc msDesc institution{
+    display:none;
+}
+
+sourceDesc msDesc idno {
+    -oxy-placeholder-content: "Signatur";
+}
+
+/* Creation */
+/* Alles, was in den Metadaten steht muss nochmal im CSS "neu" gesetzt werden, da für das Editionsteam nicht mehr relevant */
+profileDesc,
+profileDesc creation date,
+profileDesc creation placeName,
+profileDesc creation idno{
+    display: block;
+}
+
+profileDesc creation placeName:before {
+    content: "\A Ort: ";
+}
+
+profileDesc creation placeName:after {
+    content: "";
+}
+
+profileDesc creation date time[type='start']{
+    margin-top:-20px;
+}
+
+profileDesc creation date time[type='start']:before{
+    content: "\A Beginn: ";
+    width:50px;
+}
+
+profileDesc creation date time{
+    content: oxy_textfield(edit, "when",color, "black",columns, 7);
+    -oxy-display-tags: none;
+}
+
+profileDesc creation date time[type='end']:before{
+    content: "\A Ende: ";
+    width: 40px;
+}
+
+profileDesc creation date time[type='start']:after,
+profileDesc creation date time[type='end']:after{
+    content: " Uhr";
+}
+
+/* Teilnehmer:innen in den Metadaten */
+
+
+profileDesc particDesc listPerson{
+    display:block;
+    margin-top:1em;    
+}
+
+profileDesc particDesc listPerson:before{
+    content: "Teilnehmer:innen: "
+}
+
+profileDesc particDesc listPerson person:after{
+    content: ", "
+}
+
+profileDesc particDesc listPerson person:after:last-of-type{
+    content: ". ";
+}
+
+
+/* Wahlperioden und Co. */
+
+profileDesc creation idno{
+    -oxy-editable:false;
+}
+
+profileDesc creation idno[type="legislative_period"]:before{
+    content: "\A Wahlperiode: "
+}
+
+profileDesc creation idno[type="chancellor"]:before{
+    content: "Kanzler: "
+}
+
+profileDesc creation idno[type="cabinet"]:before{
+    content: "Kabinett: "
+}
+
+profileDesc creation idno[type="committee"]:before{
+    content: "Kabinettsausschuss: "
+}
+
+profileDesc creation idno[type="rule_of_procedure"]:before{
+    content: "GoBReg: "
+}
+
+profileDesc creation idno[corresp]:after{
+    content: " " url('gfx/link.png');
+}
+
+profileDesc langUsage{
+    display:none;
+}
+
+/* revisionDesc */
+
+revisionDesc listChange {
+-oxy-foldable : true ;
+-oxy-folded : true ;
+
+}
+
+revisionDesc change {
+display : block ;
+margin-top : 0.4em ;
+margin-right : 0 ;
+margin-bottom : 0 ;
+margin-left : 0 ;
+border-bottom-width : 1px ;
+border-bottom-style : solid ;
+border-bottom-color : rgb(127 , 157 , 185) ;
+border-left-width : 1px ;
+border-left-style : solid ;
+border-left-color : rgb(127 , 157 , 185) ;
+border-right-width : 1px ;
+border-right-style : solid ;
+border-right-color : rgb(127 , 157 , 185) ;
+border-top-width : 1px ;
+border-top-style : solid ;
+border-top-color : rgb(127 , 157 , 185) ;
+padding-top : 0.4em ;
+padding-right : 0.4em ;
+padding-left : 0.4em ;
+padding-bottom : 0.4em ;
+background-color : white ;
+max-width : 50rem ;
+-oxy-display-tags : none ;
+
+line-height : 1.4 ;
+-oxy-show-placeholder : always ;
+-oxy-placeholder-content : "[Kommentar zur Änderung eingeben]" ;
+}
+
+
+revisionDesc[status='draft']:before {
+        content:
+        "Status: " url('gfx/status_draft.gif')
+    }
+    
+revisionDesc[status='final']:before {
+        content:
+        "Status: " url('gfx/status_final.gif')
+         }
+ revisionDesc {
+        display: block;
+        margin: 1em 0 0.5em 0;
+         color : rgb(70 , 94 , 122) ;
+    }
+ 
+revisionDesc:after {
+        content: oxy_editor(type,button,actionID,revisionDesc);
+    }
+
+
+revisionDesc listChange:before {
+                display: block;
+               margin: 1em 0 0.5em 0;
+               font-family : "BBAWfont-italic" ;     
+               
+               color : rgb(70 , 94 , 122) ;
+    	content: "Bearbeitungshistorie";
+    	margin: 0.5em 0 0 0;
+    	
+    }
+    
+revisionDesc listChange{  
+    -oxy-foldable: true;
+	-oxy-folded: true;
+	
+  }
+
+revisionDesc change {
+    -oxy-show-placeholder: always;
+    -oxy-placeholder-content: "[Kommentar zur Änderung eingeben]";
+    }
+revisionDesc change:before {
+    	content: oxy_editor(type,datePicker,edit,'@when',format,'yyyy-MM-dd');
+    }
+ revisionDesc change[who]:before {
+    	content: oxy_editor(type,datePicker,edit,'@when',format,'yyyy-MM-dd')
+        	     " von " oxy_editor(type,text,edit,'@who',columns,10) " ";
+    }
+
+/* ############## text ################# */
+
+text {
+    border-top: 1px solid silver;
+}
+
+/* front-Bereich = Protokoll: Kopf */
+/* Start, Ende, Uhrzeit und Co. aus den ehemaligen Metadaten */
+/* 
+ * <div type="creation">
+            <dateline n="start">
+               <name type="label">Beginn:</name>
+               <time type="start" when="09:00:00">9.00 Uhr</time>
+            </dateline>
+            <dateline n="end">
+               <name type="label">Ende:</name>
+               <time type="end" when="09:17:00">9.17 Uhr</time>
+            </dateline>
+            <dateline n="place">
+               <name type="label">Ort:</name>
+               <placeName type="building">Bundeskanzleramt</placeName>
+            </dateline>
+         </div>
+ */
+
+front div[type="creation"]{
+    display:block;
+    margin-top:2em;
+}
+
+front div[type="creation"] dateline{
+    display: block;
+}
+
+front div[type="creation"] dateline name:after{
+    content: " "
+}
+
+
+/* Tagesordnung */
+front div[type='agenda']:empty{
+    display: block;
+    /*content: "Tagesordnung: "*//*oxy_editor(type,button,actionID,min_agenda_TOP_ordinary) 'oder 'oxy_editor(type,button,actionID,min_agenda_TOP_extraordinary)*/;
+    margin-top: 1em;
+    -oxy-placeholder-content: "Tagesordnung anlegen über Protokoll: Kopf";
+    -oxy-show-placeholder: always;
+}
+
+list[type='agenda'][subtype='ordinary'],
+list[type='agenda'][subtype='extraordinary']{
+    display: block;
+    margin-top: 50px;
+}
+
+front div[type='agenda'] list[type='agenda'] head {
+    font-style: italic;
+}
+
+/*  #NA: zwei oben werden durch 2 unten ersetzt, wenn betreffende Stellen ersetzt worden sind */
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] head{
+    -oxy-placeholder-content: "Titel der Agenda, z.B. Tagesordnung";
+    -oxy-show-placeholder: always;
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] head{
+    -oxy-placeholder-content: "Titel der Agenda, z.B. Außerhalb der Tagesordnung";
+    -oxy-show-placeholder: always;
+}
+
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] item > ref[target]:after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_TOP_ordinary, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    "\279C";
+    font-family: FontAwesome;
+    link: attr(target);
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] item > ref[target]:after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_TOP_extraordinary, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    "\279C";
+    font-family: FontAwesome;
+    link: attr(target);
+}  
+    
+front div[type='agenda'] list[type='agenda'][subtype='sub_item'] item > ref[target]:after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_sub-TOP_itemizedlist, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    "\279C";
+    font-family: FontAwesome;
+    link: attr(target);
+}
+
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] item > ref[target='#']:after,
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] item > ref[target='#']:after,
+front div[type='agenda'] list[type='agenda'][subtype='sub_item'] item > ref[target='#']:after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_TOP_ordinary, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left) " Ausgwählter TOP ist wegen fehlender ID nicht verknüpft worden!";
+    border-style:dashed;
+    border-color:red;
+}
+
+
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] item ref:not([target]):after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_TOP_ordinary, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left);
+}
+
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] item ref:not([target]):after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_TOP_extraordinary, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left);
+}  
+    
+front div[type='agenda'] list[type='agenda'][subtype='sub_item'] item ref:not([target]):after{
+    content: " "
+    oxy_editor(type, button, actionID, min_agenda_sub-TOP_itemizedlist, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_agenda_get_TOP-ID, transparent, true, color, #FFFFFF, text-align, left);
+}
+
+front div[type='agenda'] list[type='agenda'] item{
+    display:block
+}
+    
+front div[type='agenda'] list[type='agenda'] item ref{
+/* wird nicht angezeigt, das ein <label/> vorhanden ist und es dann nicht greift. Hier drin gelassen, damit die Idee nicht nochmal kommt bzw. schneller klar wird, wieso es nicht umgesetzt wurde. */
+    -oxy-placeholder-content:"Tagesordnungspunkt eintragen";
+    -oxy-show-placeholder:always;
+    display:inline-block;
+}
+
+
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] list,
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] list item,
+front div[type='agenda'] list[type='agenda'][subtype='ordinary'] list item list item,
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] list,
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] list item,
+front div[type='agenda'] list[type='agenda'][subtype='extraordinary'] list item list item{
+    display: block;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "Titel des TOPs in der Tagesordnung";
+    -oxy-show-placeholder:always;
+}
+
+front div[type='agenda'] list[type='agenda'] list item{
+    -oxy-show-placeholder: always;
+    -oxy-placeholder-content: "TOP eingeben";
+}
+
+/* text structure */
+
+text body {
+    position: relative;
+    display: block;
+    -oxy-placeholder-content:"\A[Bevor ein Tagesordnungspunkt angelegt werden kann, muss dieser in der Agenda vorhanden sein: \A\A 1. TOP anlegen unter Protokoll: Kopf \A 2. Speichern \A 3. Tagesordnungspunkt anlegen unter Protokoll: Text]";
+    -oxy-show-placeholder: always;
+    
+}
+
+text body:empty{
+    content: 'Protokolltext '
+}
+
+text head {
+    display: block;
+    margin: 0 0 1em 0;
+}
+
+
+text p, 
+text lg[type="verse"] {
+    display: block;
+    margin: 0 0 1em 0;
+}
+
+text p[rend="align(center)"]{
+    text-align: center;
+}
+
+text p[rendition="#mMM"] {
+    border-left: 3px solid black;
+    padding-left: 0.5em;
+}
+
+text p[rendition="#et"], text list[rendition="#et"] {
+    padding-left: 3em;
+}
+
+text lb {
+    display: inline;
+    -oxy-display-tags: none;            
+}
+
+text lb:before {
+    content: "\A";
+    white-space: pre-line;
+}
+
+text g[ref="#typoHyphen"] {
+    content: "–";
+    -oxy-display-tags: none;
+}
+
+/* see <br> in http://www.w3.org/TR/CSS2/sample.html */
+
+front list,
+front list item,
+front list item list item,
+text list,
+text list item,
+text list item list item{
+    display: block;
+    -oxy-display-tags: none;
+}
+
+front list item,
+text list item{
+    margin-bottom:15px;
+}
+
+front list item list item:last-child,
+text list item list item:last-child{
+    margin-bottom:15px;
+}
+
+front list,
+front list item list,
+text list,
+text list item list{
+    margin: 1em 0 0 1em;    
+}
+
+/* #################################
+ * ########## Listen MINUTES #######
+ * ################################# */
+
+item:empty,
+item{
+    -oxy-placeholder-content: "Listenpunkt";
+    -oxy-show-placeholder: always;
+}
+
+list[rendition] > item:after{
+       content: " "
+       oxy_editor(type, button, actionID, min_item_all, transparent, true, color, #FFFFFF, text-align, right)
+       oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right);
+}
+
+list[rendition] > item[n]:after{
+       content: " "
+       oxy_editor(type, button, actionID, min_item_all, transparent, true, color, #FFFFFF, text-align, right)
+       oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+       " ("attr(n)")";
+}
+
+item label{
+    font-size: 105%;
+    -oxy-placeholder-content: "Aufzählzeichen";
+    -oxy-show-placeholder: always;
+}
+
+text space {
+    content: "   ";
+    border-bottom: 1px dotted gray;
+    -oxy-display-tags: none;
+}
+
+list[type] item ref,
+label,
+num{
+    -oxy-display-tags:none;
+}
+
+list[rendition='bulleted'] item:before{
+    font-family: FontAwesome;
+    content: "\26ab  ";
+    font-size:60%;
+}
+
+list[rendition='none'] item:before{
+    content: "";
+}
+
+list[rendition='hyphen'] > item:before{
+    content: "— ";
+}
+
+list item p:first-of-type{
+    display:inline-block;
+    -oxy-display-tags: none;
+    padding-bottom:1em;
+    padding-left: 0em;
+}
+
+
+/* juli 2021: Absätze in Listen -> lb */
+/* Absätze im Listenpunkt, alt: list item > p */
+/*list item p:not(p:first-of-type){
+    margin-left:0.5em;
+    margin-top: -1em;
+    padding-left: 0.7em;
+}*/
+
+/*text list item{
+    -oxy-placeholder-content:"show me";
+    -oxy-show-placeholder:always;
+}*/
+
+/* Tables  */
+
+text table {
+  display: table;
+  margin: 1em 0 1em 0;
+}
+text table > head{
+    display:table-caption;
+    font-family: "BBAWfont-italic";
+    margin-bottom: 6pt;
+}
+
+text row {
+  display: table-row;
+}
+text row[role='label'] {
+   color: inherit;
+   background-color: #aaa;
+   font-weight: bold;
+}
+
+text cell {
+  display: table-cell;
+  border: 1px dashed silver;
+  padding: 3px;
+  color: inherit;
+  background-color:inherit;
+}
+
+text table[rend='drawn'] cell {
+    border: 1px solid silver;
+}
+
+text cell[rendition='#right'] {
+    text-align: right;
+}
+
+text cell[rendition='#c'] {
+    text-align: center;
+}
+
+text cell[role='label'] {
+   color: inherit;
+   background-color: #bbb;
+}
+
+/* Teilnehmer:innen */
+front div[type='list_participants'],
+front div[type='list_participants'] head
+front div[type='list_participants'] listPerson,
+front div[type='list_participants'] listPerson person,
+front div[type='list_participants'] listPerson person persName,
+front div[type='list_participants'] listPerson person note{
+    -oxy-display-tags: none;    
+}
+
+front div[type='list_participants']:empty{
+    -oxy-placeholder-content: "Teilnehmer:innenliste anlegen über Protokoll: Kopf";
+    -oxy-show-placeholder: always;
+}
+
+front div[type='list_participants'] listPerson person[role]:first-of-type:before{
+    content: "";
+}
+
+
+front div[type='list_participants'] listPerson person[role]:first-of-type persName{
+    -oxy-placeholder-content: "Erste:n Teilnehmer:in eintragen und mit dem Register verknüpfen";
+    -oxy-show-placeholder: always;
+}
+
+
+front div[type='list_participants'] listPerson person[role] persName{
+    color:red;
+}
+
+front div[type='list_participants'] listPerson person[role][corresp] persName{
+    -oxy-placeholder-content: "Teilnehmer:in eintragen";
+    -oxy-show-placeholder: always;
+    color:black;
+}
+
+
+front div[type='list_participants'] listPerson person[role]:before{
+    content: ", "
+}
+
+front div[type='list_participants'] listPerson person[role='recorder']:before{
+    content: ". Protokoll: ";
+}
+
+/*profileDesc particDesc listPerson person:before:last-of-type{
+    content: ", ";
+}*/
+
+front div[type='list_participants'] listPerson person:after:last-of-type{
+    content: ". ";
+}
+
+person note{
+    -oxy-placeholder-content:"ergänzende Information zum:r Teilnehmer:in";
+    -oxy-show-placeholder: always;
+}
+
+person note:before{
+    content: " "
+}
+
+/* Tagesordnung ?????? */
+
+
+/* TOP */
+
+/* Eingangsbemerkung, Abschlussbemerkung, Sitzungsunterbrechung???? */
+
+div[type="attachment"],
+div[type="introductory_note"],
+div[type="closing_remark"]{
+    border-left:dotted 1px black;
+    /* background-color:#F7F7F7; */
+}
+
+div[type='introductory_note'] p{
+    -oxy-placeholder-content:"Eingangsbemerkung";
+}
+
+div[type='closing_remark'] p{
+    -oxy-placeholder-content:"Abschlussbemerkung";
+}
+
+/* TOP */
+div[type='agenda_item']{
+    margin-bottom:20px;
+    margin-top:2em;
+}
+
+div[type='agenda_item'] dateline,
+div[type='agenda_item'] dateline time{
+    text-align: right;
+    -oxy-display-tags: none;
+}
+
+div[type='agenda_item'] note[type='ressort']{
+    -oxy-placeholder-content: "Ressorts eintragen";
+    background-color: transparent;
+    text-align:right;
+    -oxy-display-tags: none;
+    display: block;
+    font-weight:bold;
+}
+
+div[type='agenda_item'] note[type='more_info']{
+    -oxy-placeholder-content:"zusätzliche Information zur Überschrift";
+    -oxy-display-tags: none;
+}
+
+div[type='agenda_item'] head{
+    font-size: 120%;
+    font-weight:bold;
+    -oxy-show-placeholder: always;
+}
+
+div[type='agenda_item'] head[type="sub_top_head"]{
+    font-size: 100%!important;
+    font-weight:normal;
+    -oxy-show-placeholder: always;
+}
+
+
+div[type='agenda_item'][subtype=ordinary] head{
+    -oxy-placeholder-content: "Überschrift des ordentlichen TOPs";
+}
+
+div[type='agenda_item'][subtype=extraordinary] head{
+    -oxy-placeholder-content: "Überschrift des außerordentlichen TOPs";
+}
+
+/* editorisch gesetzter TOP */
+
+div[type='agenda_item'][subtype='extraordinary_added'] head{
+    -oxy-placeholder-content: "editorisch gesetzte TOP-Überschrift";
+}
+
+
+
+div[type='agenda_item'][subtype='extraordinary_added'] head+p:first-of-type:before{
+    content:"";
+}
+
+/* editorisch ergänzte Überschriften */
+div[type='agenda_item'] head[type=added]{
+    -oxy-placeholder-content: "editorisch gesetzte TOP-Überschrift";
+}
+
+
+div[type='agenda_item'] head[n]:before{
+    content: oxy_textfield(edit, "n",color, "black",columns, 5)" ";
+}
+div[type='agenda_item'] head[n][type='added']:before{
+    content: "["oxy_textfield(edit, "n",color, "black",columns, 5);
+}
+div[type='agenda_item'] head[type=none]{
+    -oxy-show-placeholder: always;
+    -oxy-placeholder-content: "Dieser TOP hat keine Überschrift";
+}
+
+/* editorische Ergänzungen */
+
+note[type='editorial_addition'] head{
+    -oxy-placeholder-content: "Überschrift der editorischen Ergänzung"!important;
+    -oxy-show-placeholder:always;
+    font-size:100%;
+}
+
+note[type='editorial_addition'] p{
+    -oxy-placeholder-content: "editorische Ergänzung";
+    -oxy-show-placeholder:always;
+}
+
+note[type='editorial_addition']{
+    display:block;
+    background-color:#e0e0e0;
+}
+
+
+text note:has(p) {
+    display: block;
+    margin-top: 1em;
+}
+
+text note p { 
+    display: block;
+}
+
+
+/* Unter-TOPs */
+
+head list[type='agenda_sub_item'] item:after{
+ content: " "
+    oxy_editor(type, button, actionID, min_struct_sub-TOP_list, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right);   
+}
+
+head list[type='agenda_sub_item'] item[n]:after{
+ content: " "
+    oxy_editor(type, button, actionID, min_struct_sub-TOP_list, transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right)
+    " ("attr(n)")";   
+}
+
+list[type='agenda_sub_item']{
+    font-size: 80%;
+}
+
+/* Umlaufverfahren und Anhänge */
+
+div[type='circulation_procedure'] list item:after{
+    content:""
+}
+
+/* wofür wird das gebraucht? */
+div[type='circulation_procedure'] list item[n]:after{
+    content:"" "( "attr(n)")"
+}
+
+div[type='circulation_procedure'] list item ref:after{
+    content:" " 
+    oxy_editor(type, button, actionID, 'min_struct_div[circulation_procedure]', transparent, true, color, #FFFFFF, text-align, right)
+    oxy_editor(type, button, actionID, min_delete, transparent, true, color, #FFFFFF, text-align, right);
+}
+
+div[type='agenda_item'][subtype] div head,
+div[type='agenda_item'] div head{
+    font-size:95%;
+}
+
+div[type='agenda_item'] div head{
+    font-size: 105%!important;
+    font-weight:bold;
+    -oxy-show-placeholder: always;
+    -oxy-placeholder-content: "Überschrift"!important;
+}
+
+div[type='agenda_item'] div[type='attachment'] head{
+    font-size: 105%!important;
+    font-weight:bold;
+    -oxy-show-placeholder: always;
+    -oxy-placeholder-content: "Überschrift der Anlage"!important;
+}
+
+/* Typ der Überschirft */
+
+div[type='agenda_item'] div[type='attachment'] head[type="paragraph"]{
+    font-weight:normal;
+    font-size:100%!important;
+}
+
+div[type='agenda_item'] div[type='attachment'] p{
+    -oxy-placeholder-content: "Absatz";
+    -oxy-show-placeholder:always;
+}
+
+div[type='agenda_item'] div[type='attachment'] head+p:first-of-type:before{
+    content:"";
+}
+
+div[type='circulation_procedure'] item ref:not(:first-child):before{
+    content:"\A ";
+}
+
+div[type='circulation_procedure'] item ref:not(:first-child){
+    -oxy-placeholder-content:"weiterer Titel im Umlaufbeschluss";
+    -oxy-show-placeholder:always;
+}
+
+div[type='agenda_item'] div[type='attachment']{
+    display:block;
+    margin-top:50px;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "Anlage";
+    
+}
+
+
+
+div[type='agenda_item'] > p{
+    -oxy-show-placeholder: always;
+    -oxy-placeholder-content: "Hier beginnt ein Absatz";
+}
+
+
+/* Zusatzinfos im Umlaufverfahren und in der Tagesordnung */
+bibl[type='template']:before,
+bibl[type='fact_sheet']:before,
+bibl[type='more_info']:before,
+bibl[type='decision']:before{
+    content: "\A";
+}
+
+bibl[type='template']{
+    -oxy-placeholder-content: "Information zur Vorlage";
+    -oxy-show-placeholder: always;
+    color: black;
+}
+
+bibl[type='fact_sheet']{
+    -oxy-placeholder-content: "Information zum Datenblatt";
+    -oxy-show-placeholder: always;
+    color: black;
+}
+
+bibl[type='more_info']{
+    -oxy-placeholder-content: "weitere Informationen, die nicht der Vorlage oder dem Datenblatt entsprechen";
+    -oxy-show-placeholder: always;
+    color: black;
+}
+
+bibl[type='decision']{
+    -oxy-placeholder-content: "Beschluss";
+    -oxy-show-placeholder: always;
+    color: black;
+}
+
+bibl[type='fact_sheet']+bibl[type='decision']:before{
+    content:" - ";
+}
+
+/* Federführung und Uhrzeit */
+
+
+note[type='ressort'] orgName:before{
+    content:", "
+}
+
+note[type='ressort'] orgName:first-of-type:before{
+    content:""
+}
+
+text dateline:last-of-type:after{
+    content: " " oxy_editor(type, button, actionID, min_delete_time, transparent, true, color, #FFFFFF, text-align, right);
+}
+
+/* noch bei einem Stil einbauen, damit es bearbeitet werden kann */
+text dateline time[when]{
+    content: oxy_textfield(edit, "when",color, "black",columns, 7);
+}
+
+text dateline time{
+    -oxy-placeholder-content: "Uhrzeit in Textform ohne 'Uhr' und Klammern";
+    -oxy-show-placeholder: always;
+}
+
+/*text dateline time[when]:hover{
+    content: oxy_textfield(edit, "when",color, "black",columns, 7);
+}*/
+
+
+
+
+text dateline:after{
+    content: "" oxy_editor(type, button, actionID, min_delete_time, transparent, true, color, #FFFFFF, text-align, right);
+    
+}
+
+
+
+/* Sitzungsunterbrechungen */
+
+note[rend="interruption"]{
+    margin: 2.5em 0 2.5em 0;
+    display:block;
+}
+
+note[rend='interruption'] p{
+    -oxy-placeholder-content: "Absatz";
+    -oxy-show-placeholder:always;
+}
+
+/* Index */
+
+front index[spanTo],
+text index[spanTo] {
+    -oxy-display-tags: none;
+    line-height: 0.8em;
+}
+
+front index:not([spanTo]),
+text index:not([spanTo]){
+    content:"";
+}
+
+front index[spanTo]:before,
+text index[spanTo]:before {
+    content: url('gfx/index_start.png');
+}
+
+/* indexName & n für die beiden Verlinkungen */
+
+front anchor[type="index"],
+text anchor[type="index"] {
+    -oxy-display-tags: none;    
+    line-height: 0.8em;
+}
+
+front anchor[type="index"]:after,
+text anchor[type="index"]:after {
+    content: url('gfx/index_end.png');
+}
+
+front index term,
+text index term {
+    display: none;
+}
+
+
+/* Entitäten */
+persName,
+persName[key],
+orgName[key],
+placeName[key],
+bibl,
+rs,
+rs[type='person'][key],
+rs[type='org'][key],
+rs[type='place'][key],
+rs[type='bibl'][key],
+rs[type='term'][key],
+rs[type='abbr'][key],
+rs[type='law'][key]{
+    color: #465E7A;
+    -oxy-display-tags: none;
+} 
+
+text persName[key='yes'],
+text orgName[key='yes'],
+text placeName[key='yes'],
+text bibl[sameAs='yes'],
+text rs[type='person'][key='yes'],
+text rs[type='org'][key='yes'],
+text rs[type='place'][key='yes'],
+text rs[type='bibl'][key='yes'],
+text rs[type='term'][key='yes'],
+text rs[type='abbr'][key='yes'],
+text rs[type='law'][key='yes']
+text persName[key='no'],
+text orgName[key='no'],
+text placeName[key='no'],
+text bibl[sameAs='no'],
+text rs[type='person'][key='no'],
+text rs[type='org'][key='no'],
+text rs[type='place'][key='no'],
+text rs[type='bibl'][key='no'],
+text rs[type='term'][key='no'],
+text rs[type='abbr'][key='no'],
+text rs[type='law'][key='no']{
+    color: red;
+    -oxy-display-tags: none;
+}
+
+
+
+/* Dates */
+text date {
+    -oxy-display-tags: none;
+}
+
+/*  References */
+
+text ref,
+msContents note ref,
+notesStmt note ref,
+correspDesc note ref {
+    -oxy-display-tags: none;
+    border-bottom: 1px dashed #00C6FF;
+}
+
+text ref{
+    -oxy-display-tags: none;
+}
+
+text anchor[type="verweisziel"] {
+    -oxy-display-tags: none;
+}
+
+text anchor[xml|id^="start"]:after {
+    content: url('gfx/link_target_start.png');
+}
+
+text anchor[xml|id^="stop"]:before {
+    content: url('gfx/link_target_stop.png');
+}
+
+
+
+
+/* Statusangaben */
+TEI[telota|doctype="introduction"] div:before,
+p[n]:before,
+div[type='agenda_item'][ana]:before,
+div[type='agenda_sub_item'][ana]:before,
+div[type='introductory_note'][ana]:before,
+div[type='closing_remark'][ana]:before,
+div[type=agenda_sub_item][ana]:before,
+list[n][ana]:before,
+item[n][ana]:after,
+note[ana]:before{
+    font-family: FontAwesome;
+    content: attr(n) " \26ab"
+        oxy_popup(
+            edit, "@ana", 
+            values, "status:draft, status:progress, status:discussion, status:final", 
+            labels, "Entwurf, in Bearbeitung, besprechungsreif, final",
+            resultSeparator, " ", 
+            columns, 12, 
+            selectionMode, "single",
+            fontInherit, false,
+            color, black)"\A";
+    font-weight:bold;
+}
+
+
+
+/* Sachkommentar */
+
+
+/* Annotation */
+
+/* geschlossene Kommentarstruktur */
+text seg {
+    -oxy-display-tags: none;
+}
+
+text seg orig {
+    background-color: #E8E4D5!important;
+    -oxy-display-tags: none;
+}
+
+text seg note {
+    padding-left: 0.5em;
+    font-family: Calibri;
+    color: #423E2C;
+    background-color: #fdfdf7; /* #fdfdf7,  #D6D2C2; */
+    -oxy-placeholder-content: "[Kommentar eingeben]";
+    -oxy-display-tags: none;
+}
+
+
+/* offene Kommentarstruktur */
+
+anchor[type='comment']{
+    -oxy-display-tags: none;
+}
+
+anchor[type='comment']:before{
+    content: " " url('gfx/comment-p-16.png') " ";
+    background-color: #e3daba;
+}
+
+
+text note[type='comment'] {
+    background-color: #E8E4D5;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "[Kommentar eingeben]";
+    -oxy-show-placeholder: always;
+}
+
+
+text note[type='comment']:before{
+    content: " " url('gfx/comment-p-16.png') " ";
+    background-color: #e3daba;
+}
+
+text note[change]:before{
+    content: " " url('gfx/comment-p-16.png') " Löschvorgang fehlgeschlagen. Bitte versuchen Sie es noch einmal. ";
+    background-color: #e3daba;
+    color:red;
+    font-weight:bold;
+}
+
+/* Ampelsystem & Statusangabe für TOPs und Kommentare */
+
+/* Statusangabe */
+text note[type='comment'][n][ana]:before,
+seg note[n][ana]:before{
+    font-size:90%;
+    content:" " attr(n)"\26ab"
+    oxy_popup(
+            edit, "@ana", 
+            values, "status:draft, status:progress, status:discussion, status:final", 
+            labels, "Entwurf, in Bearbeitung, besprechungsreif, final",
+            resultSeparator, " ",
+            columns, 10,
+            selectionMode, "single",
+            fontInherit, true,
+            color, slategray);
+    font-family: FontAwesome;
+}
+
+/* Ampelsystem */
+
+text note[type='comment'][ana='status:draft']:before,
+list[ana='status:draft']:before,
+item[ana='status:draft']:after,
+p[ana='status:draft']:before,
+div[type='introductory_note'][ana='status:draft']:before,
+div[type='closing_remark'][ana='status:draft']:before,
+div[type='agenda_item'][ana='status:draft']:before,
+div[type='agenda_sub_item'][ana='status:draft']:before,
+seg note[ana='status:draft']:before{
+    color:red;
+    }
+
+
+text note[type='comment'][ana='status:progress']:before,
+list[ana='status:progress']:before,
+item[ana='status:progress']:after,
+p[ana='status:progress']:before,
+div[type='agenda_item'][ana='status:progress']:before,
+div[type='agenda_sub_item'][ana='status:progress']:before,
+seg note[ana='status:progress']:before,
+div[type='introductory_note'][ana='status:progress']:before,
+div[type='closing_remark'][ana='status:progress']:before{
+    color:#FF8C00;
+}
+
+text note[type='comment'][ana='status:discussion']:before,
+list[ana='status:discussion']:before,
+item[ana='status:discussion']:after,
+p[ana='status:discussion']:before,
+div[type='agenda_item'][ana='status:discussion']:before,
+div[type='agenda_sub_item'][ana='status:discussion']:before,
+seg note[ana='status:discussion']:before,
+div[type='introductory_note'][ana='status:discussion']:before,
+div[type='closing_remark'][ana='status:discussion']:before{
+    color:gold;
+}
+
+text note[type='comment'][ana='status:final']:before,
+list[ana='status:final']:before,
+item[ana='status:final']:after,
+p[ana='status:final']:before,
+div[type='agenda_item'][ana='status:final']:before,
+div[type='agenda_sub_item'][ana='status:final']:before,
+seg note[ana='status:final']:before,
+div[type='introductory_note'][ana='status:final']:before,
+div[type='closing_remark'][ana='status:final']:before{
+    color:green;
+}
+
+
+/* ediarum.BASE.edit-spezifisch */
+
+titleStmt title idno {
+    padding: 0 0.5em 0 0;
+    -oxy-placeholder-content: "Briefnummer";
+    -oxy-display-tags: none;
+}
+
+titleStmt title idno:after {
+    content: ".";
+} 
+
+
+sourceDesc msDesc {
+    display: block;
+    /*content: "Überlieferung: ";*/
+    content: "Signatur: "
+}
+
+
+/*sourceDesc msDesc institution:after,
+sourceDesc msDesc repository:after,
+sourceDesc msDesc collection:after{
+    content: " / ";
+}*/
+
+sourceDesc msDesc[rend="copy"] {
+    content: "Abschrift: ";
+}
+
+sourceDesc msDesc[rend="concept"] {
+    content: "Entwurf: ";
+}
+
+sourceDesc msDesc[rend="print-as-print"] {
+    content: "Druck (als solcher): ";
+}
+
+sourceDesc msDesc[rend="notExtant"] {
+    content: "Erschlossen";
+}
+
+sourceDesc msDesc[rend="print"] {
+    content: "Nur Druckzeuge vorhanden.";
+}
+
+
+sourceDesc msDesc idno[type='uri']:before {
+    content: "\A URI: ";
+}
+
+sourceDesc msDesc physDesc p {
+    display: block;
+    -oxy-placeholder-content: "[Hier Papier, Format etc. eintragen]";
+}
+
+sourceDesc msDesc physDesc:before {
+    content: "Handschriftenbeschreibung: ";
+    font-style: normal;
+    font-weight: bold;
+}
+
+sourceDesc listWit witness {
+    display: block;
+}
+
+sourceDesc witness msDesc[type='concept'] {
+    content: "Entwurf: ";
+}
+
+sourceDesc witness msDesc[type='copy'] {
+    content: "Abschrift: ";
+}
+
+sourceDesc witness>bibl {
+    content: "D: ";
+    -oxy-display-tags: none;
+}
+
+sourceDesc witness:nth-child(2)>bibl {
+    content: "D2: ";
+}
+
+sourceDesc witness:nth-child(3)>bibl {
+    content: "D3: ";
+}
+
+sourceDesc witness:nth-child(4)>bibl {
+    content: "D4: ";
+}
+
+sourceDesc witness:nth-child(5)>bibl {
+    content: "D5: ";
+}
+
+sourceDesc witness:nth-child(6)>bibl {
+    content: "D6: ";
+}
+
+sourceDesc witness:nth-child(7)>bibl {
+    content: "D7: ";
+}
+
+sourceDesc witness:nth-child(8)>bibl {
+    content: "D8: ";
+}
+
+sourceDesc witness:nth-child(9)>bibl {
+    content: "D9: ";
+}
+
+sourceDesc witness[select='#this'] {
+    font-weight: bold;
+}
+
+
+/* TEXTZEUGEN METADATEN */
+listWit[n='textWitnesses']{
+    -oxy-foldable: true;
+    -oxy-folded: true;
+    margin-top: 1em;
+}
+
+listWit[n='textWitnesses']:before{
+    content: "Liste der Textzeugen";
+}
+
+listWit[n='textWitnesses'] listWit head,
+listWit[n='textWitnesses'] listWit head title,
+listWit[n='textWitnesses'] listWit witness,
+listWit[n='textWitnesses'] title,
+listWit[n='textWitnesses'] idno{
+    -oxy-display-tags: none;
+}
+
+listWit[n='textWitnesses'] witness:first-child{
+    margin-top: 0.5em;
+}
+
+/* #NA: nochmal anschauen
+ * listWit[n='textWitnesses']:nth-child(2)>listWit[xml|id] {
+    content: "TZG-2: ";
+}*/
+
+
+listWit[n='textWitnesses'] listWit:before{
+    content: "\A Textzeugengruppe: ";
+    display:block;
+}
+
+listWit[n='textWitnesses'] listWit witness{
+    display:inline-block;
+    margin-top: 15em;
+}
+
+listWit[n='textWitnesses'] listWit head:after{
+    content: " --- "
+}
+
+listWit[n='textWitnesses'] listWit witness:after{
+    content: ", ";
+}
+
+listWit[n='textWitnesses'] listWit witness:last-child:after{
+    content: ".";
+}
+
+listWit[n='textWitnesses'] title{
+    -oxy-placeholder-content:"kein Titel vergeben";
+}
+
+listWit[n='textWitnesses'] idno:before{
+    content: " (Sigle: ";
+}
+
+listWit[n='textWitnesses'] idno:after{
+    content: ")";
+}
+
+
+
+listWit[n='textWitnesses'] listWit witness{
+    content: oxy_xpath(oxy_concat("string-join(//listWit[@n='textWitnesses']/witness[contains('",attr("sameAs"),"',@xml:id)]/idno[@type='siglum']/string(), ' ')")) " ";
+}
+
+profileDesc creation:empty {
+    -oxy-placeholder-content: '[Angaben zur Erstellung des Manuskripts über Menü "Allgemein" angeben]'; 
+    display: block;
+} 
+
+profileDesc creation date {
+    display: block;
+}
+
+profileDesc creation persName,
+profileDesc creation placeName,
+profileDesc correspAction persName,
+profileDesc correspAction placeName {
+    display: block;
+    -oxy-editable: true;/* vorher false */
+}
+
+profileDesc creation date:before {
+    content: "Datum: "
+}
+
+correspDesc date[when],
+profileDesc creation date[when] {
+    content: oxy_editor(type,datePicker,edit,'@when',format,'yyyy-MM-dd');
+    -oxy-display-tags: none;
+}
+
+correspDesc date[from],
+profileDesc creation date[from] {
+    content: oxy_editor(type,datePicker,edit,'@from',format,'yyyy-MM-dd') " bis " oxy_editor(type,datePicker,edit,'@to',format,'yyyy-MM-dd');
+    -oxy-display-tags: none;
+}
+
+correspDesc date[notBefore],
+profileDesc creation date[notBefore] {
+    content: "Nicht vor" oxy_editor(type,datePicker,edit,'@notBefore',format,'yyyy-MM-dd') " und nicht nach " oxy_editor(type,datePicker,edit,'@notAfter',format,'yyyy-MM-dd');
+    -oxy-display-tags: none;    
+}
+
+
+profileDesc creation persName:before {
+    content: "Ersteller: ";
+}
+
+profileDesc creation persName:after,
+profileDesc creation placeName:after {
+    content: url('gfx/link.png');
+}
+
+/* Abstract (Regest) */
+physDesc,
+creation,
+correspDesc,
+/*profileDesc abstract,*/
+correspDesc note,
+profileDesc textClass {
+    display: block;
+    margin: 1em 0 0 0;
+    padding: 1em 0 0 0;
+    border-top: 1px solid silver;
+}
+
+/*profileDesc abstract:before {
+    display: block;
+    content: "Regest: ";
+    font-weight: bold;
+}*/
+
+profileDesc abstract p {
+    display: block;
+    -oxy-placeholder-content: "[Regest hier eingeben]"
+}
+
+
+note quote,
+abstract quote {
+    font-family: BBAWfont;
+    -oxy-display-tags: none;
+}
+
+note quote:before,
+abstract quote:before {
+    content: "„";
+}
+
+note quote:after,
+abstract quote:after {
+    content: "“";
+}
+
+/* Anmerkungen zum Text */
+notesStmt note:before {
+    content: "Anmerkungen zum Text";
+    font-weight: bold;
+}
+
+notesStmt note p {
+    display: block;
+    -oxy-placeholder-content: "[Text hier eingeben]";
+}
+
+notesStmt {
+    display: block;
+    margin: 1em 0 1em 0;
+    padding: 1em 0 1em 0;
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;   
+}
+
+/* correspondence description */
+
+correspAction[type="sent"] {
+    display: block;
+    -oxy-placeholder-content: '[Absenderangaben über Menü "Briefmetadaten" eintragen]';
+}
+
+correspAction[type="received"] {
+    display: block;
+    -oxy-placeholder-content: '[Empfängerangaben über Menü "Briefmetadaten" eintragen]';
+}
+
+
+correspAction[type='sent'] persName:before {
+    content: "Absender: ";
+}
+
+correspAction[type='received'] persName:before {
+    content: "Empfänger: ";
+}
+
+correspAction[type='sent'] placeName:before {
+    content: "Schreibort: ";
+}
+
+correspAction[type='received'] placeName:before {
+    content: "Empfangsort: ";
+}
+
+correspAction[type='sent'] date:before {
+    content: "Schreibdatum: ";
+}
+
+correspAction[type='received'] date:before {
+    content: "Empfangsdatum: ";
+}
+
+correspContext ref {
+    display: block;
+}
+
+correspContext ref[target] {
+    color: #465E7A;
+}
+
+
+correspContext ref[type="prev"][target] {
+    content: "Vorangehender Brief";
+}
+
+correspContext ref[type="next"][target] {
+    content: "Nachfolgender Brief";
+}
+
+correspContext ref[type="prev"],
+correspContext ref[type="prev"][target^="http://"] {
+    content: "Vorangehender Brief: ";
+}
+
+correspContext ref[type="next"],
+correspContext ref[type="next"][target^="http://"] {
+    content: "Nachfolgender Brief: ";
+}
+
+correspContext ref[target]:after {
+    content: " " url('gfx/link.png');
+    link: oxy_url('${ediarum_website_base}', '${ediarum_website_path}${ediarum_website_letter}') "?id=" attr(target);
+}
+
+correspContext ref[target^="http://"]:after {
+    content: " " url('gfx/link.png');
+    link: attr(target);
+}
+
+/* Anmerkungen zum Brief */
+correspDesc note:before:first-of-type {
+    display: block;
+    content: "Anmerkungen zum Brief:";
+    font-weight: bold;
+}
+
+correspDesc note {
+    display: block;
+    -oxy-placeholder-content: "[Hier Anmerkungen zum Brief oder zur Datierung eingeben]";
+    -oxy-show-placeholder: always;
+}
+
+correspDesc note:not(:first-of-type) {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+msDesc[rend="notExtant"] msIdentifier {
+    display: none;
+}
+
+text body div[type="regestOnly"] {
+    display: block;
+    -oxy-editable: false;
+    content: "[Kein Text, nur Regest möglich]";
+}
+
+text head[type="h1"] {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+text head[type="h2"] {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+text head[type="h3"] {
+    font-size: 1.2em;
+}
+
+
+text lg lg,
+text lg lg l {
+    display: block;
+}
+
+text pb,
+text cb {
+    content: "|";
+    padding: 0;
+    color: black;
+    -oxy-display-tags: none;
+}
+
+text cb {
+    content: "||";
+}
+
+text pb[n]:after,
+text cb[n]:after {
+    content: "(" attr(n) ")";
+    font-family: "BBAWfont-italic";
+    color: gray;
+}
+
+text pb[facs]:after {
+    content: "(folio)";
+    font-family: "BBAWfont-italic";
+}
+
+text pb[n][facs]:after {
+    content: "(" attr(n) ")";
+    font-family: "BBAWfont-italic";
+}
+
+text pb[facs]:after {
+    link: url(attr(facs));
+    color: #6998BC;
+}
+
+fw {
+    font-style: italic;
+    color: gray;
+    -oxy-display-tags: none; 
+}
+
+fw:before {
+    font-style: normal;
+    content: "|("
+}
+
+fw:after {
+    font-style: normal;
+    content: ")"
+}
+
+text figure {
+    display: block;
+    margin: 0 0 0 2em;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "[Zeichnung o.ä.]";
+}
+
+text figure[facs] {
+    content: url(oxy_base-uri()'${ediarum_projects_directory}${ediarum_project_name}/data/${ediarum_image_directory}/' attr(facs));
+    width: 250px;
+}
+
+text figure head {
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "[Überschrift der Abbildung]";
+}
+
+text figure figDesc {
+    display: block;
+    font-style: italic;
+    -oxy-placeholder-content: "[Bildbeschreibung durch den Bearbeiter]"
+}
+
+text figure p {
+    -oxy-placeholder-content: "[Bildunterschrift des Autors]"
+}
+
+text figure note {
+    display: block;
+    font-style: italic;
+    -oxy-placeholder-content: "[Sacherläuterung zur Zeichnung bzw. Abbildung]"
+}
+
+/*  graphic DEPRECATED */
+text graphic {
+    content: oxy_url(attr(url));
+    width: 300px;
+    -oxy-display-tags: none;
+}
+
+text note[hand='#author']:after,
+text note[hand='#addressee']:after {
+    content: none;
+    link: none;
+}
+
+
+
+
+
+text metamark,
+text metamark {
+    content: "\23A1";
+    -oxy-display-tags: none;
+}
+
+metamark[function="used"] {
+    content: url('gfx/metamark_used_start.png');
+    -oxy-display-tags: none;
+}
+
+anchor[type="used"] {
+    content: url('gfx/metamark_used_stop.png');
+    -oxy-display-tags: none;
+}
+
+milestone {
+    margin-left: 50%;
+    content: "―";
+    -oxy-display-tags: none;
+}
+
+/* Correspondence */
+dateline {
+    display: block;
+    -oxy-placeholder-content: "[Datumszeile]";
+}
+
+opener dateline {
+    text-align: right;
+}
+
+opener salute {
+    display: block;
+    -oxy-placeholder-content: "[Anrede]";
+}
+
+closer salute {
+    display: block;
+    -oxy-placeholder-content: "[Gruß]";
+}
+
+signed {
+    display: block;
+    -oxy-placeholder-content: "[Unterschrift]";
+}
+
+/* Authors editing */
+
+quote subst,
+text subst {
+    -oxy-display-tags: none;
+}
+
+quote del,
+text del {
+    color: red;
+    background-color: white;
+    text-decoration: line-through;
+    -oxy-display-tags: none;
+}
+
+quote add,
+text add {
+    color: green;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "[Hinzufügung]"
+}
+
+quote hi[rendition="#u"],
+text hi[rendition="#u"] {
+    text-decoration: underline;
+    -oxy-display-tags: none;
+}
+
+quote hi[rendition="#uu"],
+text hi[rendition="#uu"] {
+    border-bottom: 1px solid #000;
+    text-decoration:underline;
+    -oxy-display-tags: none;
+}
+
+quote del hi[rendition="#u"],
+text del hi[rendition="#u"],
+quote hi[rendition="#u"] del,
+text hi[rendition="#u"] del,
+quote del hi[rendition="#uu"],
+text del hi[rendition="#uu"],
+quote hi[rendition="#uu"] del,
+text hi[rendition="#uu"] del {
+    text-decoration: line-through underline;
+}
+
+text hi[rendition="#mMM"] {
+    border-left: 3px solid #000;
+    border-right: 3px solid #000;
+    -oxy-display-tags: none;
+}
+
+hi[rendition="#sup"],
+g[rendition="#sup"] {
+    position: relative; 
+    top: -0.5em;
+    font-size: 0.7em;
+    -oxy-display-tags: none;
+}
+
+quote hi[rendition="#i"],
+text hi[rendition="#i"] {
+    font-style: italic;
+    -oxy-display-tags: none;
+}
+
+quote hi[rendition="#g"],
+text hi[rendition="#g"] {
+    letter-spacing:0.125em;
+    -oxy-display-tags: none;
+}
+
+head[rendition='#c'] {
+    text-align: center;
+}
+
+/* Publishers editing */
+quote supplied,
+text supplied {
+    /*font-family: "BBAWfont-italic";*/
+    background-color: #e0e0e0;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content:"editorische Ergänzung";
+    -oxy-show-placeholder:always;    
+}
+
+/* um der eckigen Klammerlogik treu zu bleiben, müssen auch hier die eckigen Klammern von den Editor:innen gesetzt werden */
+
+/*quote supplied:before,
+text supplied:before  {
+    content: "[";
+    font-style: normal;
+}
+
+quote supplied:after,
+text supplied:after {
+    content: "]";
+    font-style: normal;
+}*/
+
+
+text supplied[cert="low"]:before {
+    content: "zu ergänzen wohl [";
+    font-family: "BBAWfont-italic";
+    color: gray;
+}
+
+quote surplus,
+text surplus {
+    text-decoration: line-through;
+    color: #395B8C;
+}
+
+quote choice,
+text choice {
+    -oxy-display-tags: none;
+}
+
+quote choice sic,
+quote choice orig,
+text choice sic,
+text choice orig,
+quote choice abbr,
+text choice abbr {
+    background-color: #FFDDDD;
+    -oxy-display-tags: none;
+}
+
+quote choice corr,
+quote choice reg,
+text choice corr,
+text choice reg/* nach links.css kopiert,
+quote choice expan,
+text choice expan*/ {
+    font-style: italic;
+    background-color: #E8FFDD;
+    -oxy-display-tags: none;
+    -oxy-placeholder-content: "[Normalisierte Schreibung]";
+}
+
+quote choice corr,
+text choice corr {
+    -oxy-placeholder-content: "[Korrigierte Schreibung]";
+}
+
+quote corr[type="deleted"],
+text corr[type="deleted"] {
+    content: "[gelöscht]";
+    font-style: italic;
+    color: green;
+}
+
+quote choice abbr,
+text choice abbr {
+    background-color: #e0e0e0;
+}
+
+quote choice expan,
+text choice expan{
+    display:none;
+
+/* nach links.css kopiert, damit es nicht ständig angezeigt wird
+ * 
+    background-color: #E8FFDD;
+    -oxy-placeholder-content: "[Aufgelöste Schreibung]";
+*/}
+
+quote gap,
+quote unclear,
+text gap,
+text unclear {
+    background-color: #FFA100;
+    -oxy-display-tags: none;
+}
+
+quote gap:after,
+quote unclear:after,
+text gap:after,
+text unclear:after {
+    background-color: #FFA100;
+}
+
+quote gap,
+text gap {
+    content: "   ";
+}
+
+text damage {
+    -oxy-display-tags: none;
+    font-style: italic;
+}
+
+text damage:empty {
+    -oxy-display-tags: none;
+    content: "Schadhafte Stelle";
+}
+
+text damage:before {
+    content: "[";
+}
+
+text damage:after {
+    content: "]";
+}
+
+quote ex,
+text ex {
+    font-family: "BBAWfont-italic";
+    -oxy-display-tags: none;
+}
+
+text foreign {
+    font-family: "DejaVu Serif";
+    font-size: 0.8em;
+    -oxy-display-tags: none;
+    background-color: #e0e0e0;
+}
+
+text hi[rendition="#aq"] {
+    font-family: Biolinum;
+    -oxy-display-tags: none;
+}
+
+/* Vorgedruckte Textteile */
+hi[rendition='#mPrint'] {
+    -oxy-display-tags: none;
+}
+
+hi[rendition='#mPrint'],
+p[rendition='#mPrint'],
+address[rendition='#mPrint'] {
+    font-family: "Biolinum", Helvetica, Arial, Sans;
+}
+
+witness bibl {
+    color: black;
+}
+
+witness bibl:after {
+    display: none;
+}
+
+witness bibl[sameAs]:after {
+    display: inline;
+}
+
+facsimile {
+    display: block;
+    border-top: 1px solid silver;
+    padding: 1em 0 1em 0;
+}
+facsimile:before {
+    display: block;
+    content: "Digitalisate";
+    font-weight: bold;
+}
+
+/*address,
+addrLine {
+    display: block;
+}
+
+address:before {
+    display: block;
+    content: "Adresse:";
+    font-style: italic;
+}
+
+addrLine {
+    -oxy-placeholder-content: "[Adresszeile]";
+}*/
+
+/* Keywords */
+
+profileDesc textClass:before {
+    content: "Schlagwörter/Themen: ";
+    font-style: normal;
+    font-weight: normal;
+}
+
+profileDesc textClass keywords,
+profileDesc textClass keywords term {
+    -oxy-display-tags: none;
+}
+
+profileDesc textClass keywords term:after {
+    content: " " url('gfx/link.png') ", ";
+    link: oxy_url('${ediarum_website_base}', '${ediarum_website_path}${ediarum_website_keyword}') "?id=" attr(key);
+}
+
+profileDesc textClass keywords term:last-of-type:after {
+    content: " " url('gfx/link.png');
+    link: oxy_url('${ediarum_website_base}', '${ediarum_website_path}${ediarum_website_keyword}') "?id=" attr(key);
+}
+
+
+/* Ausrichtung Überschriften */
+
+head[rendition="#right"]{
+    text-align:right;
+}
+
+head[rendition="#center"]{
+    text-align:center;
+}
+
+
+/* Formel */
+
+formula{
+    font-family:"Coutier New";/* Arial */
+}
+
+
+/* Typografische Besonderheiten */
+
+quote hi[rendition="#u"],
+text hi[rendition="#u"] {
+    text-decoration: underline;
+    -oxy-display-tags: none;
+}
+
+quote hi[rendition="#uu"],
+text hi[rendition="#uu"] {
+    border-bottom: 1px solid #000;
+    text-decoration:underline;
+    -oxy-display-tags: none;
+}
+
+hi[rendition="#u"],
+hi[rendition="#uu"] {
+    text-decoration: line-through underline;
+}
+
+hi[rendition="#mMM"] {
+    border-left: 3px solid #000;
+    border-right: 3px solid #000;
+    -oxy-display-tags: none;
+}
+
+g[rendition="#sup"] {
+    position: relative; 
+    top: -0.5em;
+    font-size: 0.7em;
+    -oxy-display-tags: none;
+}
+
+hi[rendition="#i"] {
+    font-style: italic;
+    -oxy-display-tags: none;
+}
+
+hi[rendition="#b"] {
+    font-weight:bold;
+    -oxy-display-tags: none;
+}
+
+hi[rendition="#g"] {
+    letter-spacing:0.125em;
+    -oxy-display-tags: none;
+}
+

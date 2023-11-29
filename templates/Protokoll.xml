@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:telota="http://www.telota.de"
+    telota:doctype="minute" ana="status:draft" xml:id="${ediarum_id}">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title></title>
+            </titleStmt>
+            <publicationStmt>
+                <p/>
+            </publicationStmt>
+            <sourceDesc n="source:original">
+                <listObject>
+                    <object type="typoscript">
+                        <objectIdentifier>
+                            <institution>${ask('Archiv eingeben', generic, '')}</institution>
+                            <collection>${ask('Ggf. Sammlung', generic, '')}</collection>
+                            <idno type="shelfmark">${ask('Signatur', generic, '')}</idno>
+                        </objectIdentifier>
+                    </object>
+                </listObject>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <creation>
+                <date when="${ask('Datum der Sitzung in der Form JJJJ-MM-TT', generic, '', @date)}" n="${ask('Laufende Nummer der Sitzung (für Titel)', generic, '', @number)}">
+                    <time type="start" when="${ask('Beginn in der Form hh:mm', generic, '', @start)}:00"/>
+                    <time type="end" when="${ask('Ende in der Form hh:mm', generic, '', @end)}:00"/>
+                </date>
+            </creation>
+        </profileDesc>
+        <revisionDesc n="version:draft">
+            <listChange>
+                <change when="${date(yyyy-MM-dd)}">Erstelle Datei</change>
+            </listChange>
+        </revisionDesc>
+    </teiHeader>
+    <text type="minute">
+        <front>
+            <head><label>${answer(@number)}.</label> Kabinettssitzung<lb type="editorial"/> am ${ask('Wochentag der Sitzung', generic, '')}, dem ${xpath_eval(tokenize('${answer(@date)}', '-')[3])}. ${xpath_eval(
+                if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=01)
+                then ('Januar')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=02)
+                then ('Februar')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=03)
+                then ('März')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=04)
+                then ('April')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=05)
+                then ('Mai')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=06)
+                then ('Juni')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=07)
+                then ('Juli')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=08)
+                then ('August')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=09)
+                then ('September')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=10)
+                then ('Oktober')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=11)
+                then ('November')
+                else if (${xpath_eval(tokenize('${answer(@date)}', '-')[2])}=12)
+                then ('Dezember')
+                else (${xpath_eval(tokenize('${answer(@date)}', '-')[2])})
+                )} ${xpath_eval(tokenize('${answer(@date)}', '-')[1])}</head>
+            <div type="list_participants"></div>
+            <div type="creation">
+                <dateline n="type:start">
+                    <name type="label">Beginn:</name>
+                    <time type="start" when="${answer(@start)}:00">${xpath_eval(replace('${answer(@start)}', ':', '.'))} Uhr</time>
+                </dateline>
+                <dateline n="type:end">
+                    <name type="label">Ende:</name>
+                    <time type="end" when="${answer(@end)}:00">${xpath_eval(replace('${answer(@end)}', ':', '.'))} Uhr</time>
+                </dateline>
+                <dateline n="type:place">
+                    <name type="label">Ort:</name>
+                    <placeName type="building">${ask('Ort', generic, 'Bundeskanzleramt')}</placeName>
+                </dateline>
+            </div>
+        </front>
+        <body>
+            
+        </body>
+    </text>
+</TEI>
